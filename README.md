@@ -418,7 +418,7 @@ Using the Prediction Endpoint
 
 |Code|Name of Project|Published Article|Deployed App|
 |:---|:-------------:|:---------------:|-----------:|
-|LP6 |Sepsis Analysis FastAPI |https://medium.com/@rndcrabbe/sales-forecasting-app-with-streamlit-by-team-cape-cod-716988d5c9e7|Medium|
+|LP6 |Sepsis Analysis FastAPI |https://medium.com/@rndcrabbe/real-time-api-for-sepsis-likelihood-prediction-using-machine-learning-and-fastapi-7955077e593b|Medium|
 
 ## License
 
