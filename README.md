@@ -4,11 +4,8 @@
 [![Build Status](https://img.shields.io/travis/regina.crabbe/Sepsis-Prediction-Model-LP6/master.svg?style=flat-square)](https://travis-ci.org/regina.crabbe/Sepsis-Prediction-Model-LP6)
 [![Version](https://img.shields.io/badge/version-1.0-green.svg)]()
 
-Sepsis Prediction Machine Learning Model LP6
-
-
 ## Overview
-This project aims to predict the likelihood of sepsis in patients using machine learning. It involves the analysis of various medical features and the development of a predictive model. Additionally, an API has been created for easy integration into healthcare systems.
+This project aims to predict the likelihood of sepsis in patients using machine learning. It involves the analysis of various medical features and the development of a predictive model. Additionally, a FastAPI has been created for easy integration into healthcare systems.
 
 ## Table of Contents
 ## Overview
@@ -59,25 +56,6 @@ This project aims to predict the likelihood of sepsis in patients using machine 
 21. [Profile Picture](#profile-picture)
 22. [Contact](#contact)
 
-
-## Table of Contents
-1. [Introduction](#introduction)
-2. [Project Structure](#project-structure)
-3. [Data](#data)
-4. [Exploratory Data Analysis (EDA)](#exploratory-data-analysis-eda)
-5. [Univariate Analysis](#univariate-analysis)
-6. [Multivariate Analysis - Logistic Regression](#multivariate-analysis---logistic-regression)
-7. [Modeling](#modeling)
-8. [Summary of Models using Class Weights](#summary-of-models-using-class-weights)
-9. [Hyperparameter Tuning](#hyperparameter-tuning)
-10. [Making Predictions on Test Data](#making-predictions-on-test-data)
-11. [Saved Pipeline and Encoder](#saved-pipeline-and-encoder)
-12. [Sepsis Analysis API Development](#sepsis-analysis-api-development)
-13. [Continuous Integration/Continuous Deployment (CI/CD)](#continuous-integrationcontinuous-deployment-cicd)
-14. [Monitoring and Logging](#monitoring-and-logging)
-15. [Contributing](#contributing)
-16. [License](#license)
-
 ## Introduction
 Sepsis is a severe and potentially life-threatening medical condition that occurs when the body's response to an infection becomes dysregulated, leading to widespread inflammation and organ dysfunction. Recognized as a medical emergency, sepsis demands immediate attention and intervention. Timely detection is critical for effective treatment and improved patient outcomes.
 
@@ -100,14 +78,14 @@ The project follows a structured approach based on the CRISP-DM framework, ensur
    - **Contents:**
      - `logistic_regression_model.joblib`: Joblib file containing the saved preprocessor and the best model for prediction.
      - `label_encoder.joblib`: Joblib file containing the saved label encoder for encoding the sepsis feature.
-     - `notebook.ipynb`: Jupyter notebook documenting from the Business undrstanding through to the model development process.
+     - `notebook.ipynb`: Jupyter notebook documenting from the Business undrstanding through to the model development process and saving the model and encoder.
 
 ### 3. Root Directory
    - **Contents:**
      - `main.py`: FastAPI application script. This is the main entry point for deploying and serving the model through FastAPI.
      - `Dockerfile`: Specifies the instructions for building a Docker container to encapsulate the project and its dependencies.
      - `requirements.txt`: Lists the Python dependencies required to run the project.
-     - `README.md`: This file. Provides an overview of the project, including its structure, purpose, and instructions for usage.
+     - `README.md`: Provides an overview of the project, including its structure, purpose, and instructions for usage.
 
      - Virtual Environment (venv)
      - **Purpose:** Contains the Python virtual environment. This ensures a consistent and isolated environment for the project. 
@@ -118,7 +96,7 @@ The project follows a structured approach based on the CRISP-DM framework, ensur
    
 ## Data
 ### Source
-  - The dataset used for this project is sourced from [Kaggle](https://www.kaggle.com/). The datasets were Patients Files Train data and  Patients Files Test data.
+  - The dataset used for this project is sourced from [Kaggle](https://www.kaggle.com/). The datasets are the Patients Files Train data and  Patients Files Test data.
 
 ### Data Features
   - ID: Patient ID
@@ -155,19 +133,21 @@ The project follows a structured approach based on the CRISP-DM framework, ensur
   Blood work result-3 (TS) and blood work result-4 (BD2) had a lot of outliers specifically, above the maximum whiskers. Blood Pressure (PR) and Body Mass Index (M11)  had outliers at both sides of the whiskers. Blood Work Result-2 (SK) and Blood Work Result-1 (PL) had only one outlier outside the whiskers.
 
 - **Univariate Analysis:**
-  - The distribution of the target column Sepsis:
+  - The distribution of the target column Sepsis was investigated:
     There was a higher count of negative cases compared to positive cases in 'Sepsis'. 
-  - An in-depth exploration of the distribution of plasma glucose levels was conducted. 
+
 - **Bivariate Analysis:**
   - The relationship between numeric variables was investigated. This exploration helped uncover potential correlations or patterns between pairs of features, contributing to a more comprehensive understanding of the dataset.
   - There was a positive correlation between 'PRG' and 'Age', indicating that as plasma glucose increases, age tends to increase as well. 'PL' and 'TS' also showed a positive correlation. ‘SK' and 'Age' had a negative correlation, indicating that as blood work result-2 decreases, age tends to increase. Some variables showed weak correlations close to zero, such as 'M11' and 'Insurance'.
 
   
-## Data Analysis (Univariate and Bivariate Analysis)
+## Data Analysis 
+### Univariate and Bivariate Analysis
 These were the questions that guided the study.
 
 1. **What is the distribution of plasma glucose levels in the dataset?**
    - The distribution of PRG levels in the dataset is right-skewed, with a higher frequency of lower values (towards the left side of the histogram).
+
 2. **Is there a significant difference in plasma glucose levels between patients who    develop sepsis and those who do not?**
    - The Mann-Whitney U test, also known as the Wilcoxon rank-sum test, is a non-parametric statistical test used to assess whether there is a difference between two independent, non-normally distributed groups.
    - **Result of Mann-Whitney U test:**
@@ -177,6 +157,7 @@ These were the questions that guided the study.
    - The histogram helped to visualize the distribution of Body Mass Index (BMI) among patients who developed sepsis.
    - **Result:**
    - The average BMI of 35.39 suggests the typical BMI among patients who developed sepsis. 
+
 4. **Is there a difference in body mass index (BMI) between patients with and without sepsis?**
    - The Mann-Whitney U test assesses whether there is a significant difference in Body Mass Index (BMI) between patients with and without sepsis.
    - **Result of Mann-Whitney U test:**
@@ -192,12 +173,11 @@ These were the questions that guided the study.
    - **Result:**
    - The stacked bar chart displays the distribution of sepsis cases across different age groups, with a further breakdown based on insurance status (Positive or Negative). In the 20-29, 30-39, and 60-69 age groups, the proportion of sepsis cases appeared higher among patients without insurance compared to those with insurance. In the age groups 40-49 and 50-59, the proportion of sepsis cases appeared higher among patients with insurance compared to those without insurance.
 
-
-## Multivariate Analysis - Logistic Regression
-  - Logistic regression was used to analyse the hypothesis stated. 
-  - **Logistic regression** is a type of multiple regression used for predicting binary outcomes, and it is a suitable approach for analyzing the impact of multiple predictor variables (independent variables) on a binary categorical target variable (dependent variable).
-  - The logistic regression model showed that the p-values for Age, Plasma Glucose (PRG), and Body Mass Index (M11) were less than the alpha value(0.01). This implies that they are statistically significant predictors of the likelihood of Sepsis.
-  - Based on the results, we rejected the null hypothesis and concluded that Age, Plasma Glucose (PRG) and Body Mass Index (M11) have a statistically significant impact on the likelihood of Sepsis.
+### Multivariate Analysis - Logistic Regression
+   - Logistic regression was used to analyse the hypothesis stated. 
+   - **Logistic regression** is a type of multiple regression used for predicting binary outcomes, and it is a suitable approach for analyzing the impact of multiple predictor variables (independent variables) on a binary categorical target variable (dependent variable).
+   - The logistic regression model showed that the p-values for Age, Plasma Glucose (PRG), and Body Mass Index (M11) were less than the alpha value(0.01). This implies that they are statistically significant predictors of the likelihood of Sepsis.
+   - Based on the results, we rejected the null hypothesis and concluded that Age, Plasma Glucose (PRG) and Body Mass Index (M11) have a statistically significant impact on the likelihood of Sepsis.
 
 ## Modeling
 
@@ -244,18 +224,16 @@ In this project, several machine learning models were trained and evaluated to p
 
 - The following metrics provide a comprehensive view of each classifier's performance, considering precision, accuracy, recall, and F1-Score. Logistic regression showed a balanced performance across these metrics, making it a strong candidate for predicting the likelihood of sepsis. 
 
-## Summary Report of Models using Class Weights
-Class weight was used to address the the class imbalance in sepsis. All the seven models were trained again using class weights. This is to ensures that the model pays more attention to the minority class, potentially improving its ability to correctly predict instances of the minority class.
+## Balance the Class in Sepsis
+- Class weight was used to address the the class imbalance in sepsis. All the seven models were trained again using class weights. This is to ensures that the model pays more attention to the minority class, potentially improving its ability to correctly predict instances of the minority class.
 
+### Summary Report of Models using Class Weights
 - The Logistic Regression model with class weights performed best with precision of 75.4%, recall of 72.5%, F1-Score of 73.1% and accuracy of 72.5%. This model shows a good balance between precision and recall, making it a suitable choice for predicting the likelihood of sepsis. 
 
-
 ## Hyperparameter Tuning
-
 Hyperparameter Tuning systematically searches for the best set of hyperparameters for the algorithm to optimize its performance. It improves the model's performance and also controls the complexity of the model.
 - Utilized grid search for hyperparameter tuning on the Logistic Regression model.
 - Best hyperparameters: {'C': 1, 'penalty': 'l1', 'solver': 'liblinear'}
-
 
 ## Making Predictions on Test Data
 The logistic regression model, as the best-performing model, demonstrates its effectiveness in distinguishing between patients with and without sepsis. 
@@ -266,13 +244,11 @@ The logistic regression model, as the best-performing model, demonstrates its ef
 The model's pipeline and encoder were saved to be used for further predictions on unseen data.
 
 ## Sepsis Analysis API Development
-Introduce the API developed, its endpoints, request parameters, response format, and error handling.
-
-## Introduction
+### Introduction
 
 The Sepsis Analysis API is a predictive tool designed to assess the likelihood of sepsis based on specific input parameters. This API incorporates a logistic regression classifier, trained on historical data, to deliver rapid and automated sepsis predictions.
 
-## Endpoints
+### Endpoints
 
 ### 1. Prediction Endpoint
 
@@ -305,13 +281,13 @@ The Sepsis Analysis API is a predictive tool designed to assess the likelihood o
     }
     ```
 
-## Error Handling
+### Error Handling
 
 - The API provides informative error messages in case of an exception during prediction.
 - The response includes an `error` field with details about the encountered error.
 - Proper HTTP status codes are used to indicate the success or failure of the request.
 
-## Usage
+### Usage
 
 **Prediction:**
    - Send a POST request to `/predict` with the required parameters.
@@ -329,9 +305,7 @@ pip install -r requirements.txt
 Run the API:
 Start the FastAPI application by running:
 ```
-{
     uvicorn main:app --reload
-}
 ```
     The API will be available at http://127.0.0.1:8000.
 
@@ -354,22 +328,16 @@ Access API Documentation:
 ```
 ### Prerequisite
 
-Before proceeding, ensure that you have Docker installed on your machine. You can download Docker from the official website: [Docker](https://www.docker.com/get-started).
-
-## Build Docker Image
+Install Docker on your machine. Download Docker from the official website: [Docker](https://www.docker.com/get-started).
 
 ### Build Docker Image
-
     docker build -t sepsisanalysis-fastapi-app 
 
-
 ### Run Docker container
-
     docker run -p 8000:8000 sepsisanalysis-fastapi-app 
 
-## Dependencies
-
-Ensure you have the following dependencies installed before running the project:
+### Dependencies
+Dependencies installed before running the project:
 
 - Python 3.9
 - FastAPI
@@ -389,9 +357,6 @@ Install the dependencies using the following command:
     pip install -r requirements.txt
 
 ## Setup
-Explain the steps to set up the project locally, including installing dependencies.
-
-## Setup
 
 Steps to set up the project locally:
 
@@ -406,12 +371,47 @@ Steps to set up the project locally:
 
 
 ## Usage
-Provide instructions on how to use the project, including running the models and making predictions.
+Provinstructions on how to use the project, including running the models and making predictions.
 
-## API Documentation
-Include detailed documentation on how to use the API, with examples.
+### 1. Setup
 
+Before using the project, ensure that you have set up the environment as described in the Setup section of the README. This includes cloning the repository, creating a virtual environment, and installing the required dependencies.
 
+### 2. Run the FastAPI Application Locally
+
+```bash
+uvicorn main:app --reload
+```
+- This command starts the FastAPI application locally. The API will be accessible at http://127.0.0.1:8000.
+
+    **Interface of FastAPI**
+
+![FastAPI Interface](Images/FastAPI.png)
+
+### 3. Access API Documentation
+
+- Visit http://127.0.0.1:8000/docs in a web browser to access the API documentation. The documentation provides details on the available endpoints, request parameters, and response formats.
+
+    **Interface of FastAPI Documentation**
+
+![FastAPI Documentation Interface](Images/APIDOCS.png)
+
+### 4. Make Predictions
+Using the Prediction Endpoint
+-   Open the API documentation page at http://127.0.0.1:8000/docs.
+-   Navigate to the /predict endpoint.
+-   Input the required parameters (PRG, PL, PR, SK, TS, M11, BD2, Age, Insurance) for making predictions.
+-    Click on the "Execute" button to get predictions.
+
+**Prediction Interface**
+
+![FastAPI Prediction Interface](Images/Request.png)
+
+**Example cURL Request**
+
+**Prediction Result Interface**
+
+![FastAPI Prediction Interface](Images/Prediction.png)
 
 ## Project Summary
 
@@ -438,3 +438,5 @@ This project is licensed under the [MIT License](LICENSE).
 ## Contact
 Regina Naa Dedei Crabbe
 - Email: rndcrabbe@gmail.com
+- Medium: https://medium.com/@rndcrabbe
+- Linkedin: https://www.linkedin.com/in/regina-crabbe-ab11a5284/
