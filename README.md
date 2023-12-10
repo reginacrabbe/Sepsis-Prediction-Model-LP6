@@ -419,7 +419,7 @@ Using the Prediction Endpoint
 |Code|Name of Project|Published Article|Deployed App|
 |:---|:-------------:|:---------------:|-----------:|
 |LP6 |Sepsis Analysis FastAPI |https://medium.com/@rndcrabbe/real-time-api-for-sepsis-likelihood-prediction-using-machine-learning-and-fastapi-7955077e593b|Medium|
-
+|Deployed Model |Sepsis Analysis FastAPI |https://reginandcrabbe-sepsisanalysispredictionlp6hgf.hf.space/docs|Haggingface|
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
