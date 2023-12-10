@@ -56,6 +56,7 @@ This project aims to predict the likelihood of sepsis in patients using machine 
 21. [Profile Picture](#profile-picture)
 22. [Contact](#contact)
 
+
 ## Introduction
 Sepsis is a severe and potentially life-threatening medical condition that occurs when the body's response to an infection becomes dysregulated, leading to widespread inflammation and organ dysfunction. Recognized as a medical emergency, sepsis demands immediate attention and intervention. Timely detection is critical for effective treatment and improved patient outcomes.
 
